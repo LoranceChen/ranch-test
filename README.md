@@ -25,7 +25,7 @@
 	- 根据下面的[ref 1](https://elixirforum.com/t/does-hot-code-swapping-come-for-free/2493)，使用老代码的进程会被kill掉，因为erlang运行时只维护两套代码，当第二次hot reload时，连接telnet的进程因为用的时老代码，所以会被kill掉了。
 
 ## 结论
-为了保证正常的热更新，必须确保引用了修改的代码的**进程**是提供restful服务的，比如socket链接这样的代码，放在单独的进程中，不要经常变动这类进程相关的代码，所以尽量抽象出这些逻辑。对于后端来说，保存状态尽量用OTP提供的server，agent，task，并设置好重启策略。另外，与外部环境交互也要保证，比如跟数据库的交互的进程也需要随时原子性（当然，数据库本来就要保证原子性）。Erlang没有银弹，但简化了整个recover crash的过程。
+为了保证正常的热更新，必须确保引用了修改的代码的**进程**是提供restful服务的，比如socket链接这样的代码，放在单独的进程中，不要经常变动这类进程相关的代码，所以尽量抽象出这些逻辑。对于后端来说，保存状态尽量用OTP behaviours提供的server，agent，task等，并设置好重启策略。另外，与外部环境交互也要保证，比如跟数据库的交互的进程也需要随时原子性（当然，数据库本来就要保证原子性）。Erlang没有银弹，但简化了整个recover crash的过程。
 
 ## ref
 1 [热更新的关键步骤](https://elixirforum.com/t/does-hot-code-swapping-come-for-free/2493)  
@@ -33,3 +33,4 @@
 3 https://stackoverflow.com/questions/37368376/how-does-erlang-hot-code-swapping-work-in-the-middle-of-activity  
 4 [good principles](http://www.erlang.se/doc/programming_rules.shtml#REF86715)  
 5 [not read yet](http://erlang.org/doc/design_principles/appup_cookbook.html#id86501)
+6 [release handling](http://erlang.org/doc/design_principles/release_handling.html)

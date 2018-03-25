@@ -23,3 +23,6 @@ erl_crash.dump
 testme2-*.tar
 
 *.beam
+
+# ide
+.elixir_ls
